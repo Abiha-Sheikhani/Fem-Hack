@@ -1,18 +1,18 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
-import AuthCard from './Components/Auth'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AuthCard from "./Pages/Auth";
+import UserPanel from "./pages/UserPanel";
+import AdminPanel from "./pages/AdminPanel";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-   <>
-  <AuthCard/>
-   </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<AuthCard />} />
+        <Route path="/user" element={<UserPanel />} />
+        <Route path="/admin" element={<AdminPanel />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
