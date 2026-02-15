@@ -1,15 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthCard from "./Pages/Auth";
-import UserPanel from "./pages/UserPanel";
-import AdminPanel from "./pages/AdminPanel";
+import UserDashboard from "./Pages/UserPanel";
+import AdminDashboard from "./Pages/AdminPanel";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AuthCard />} />
-        <Route path="/user" element={<UserPanel />} />
-        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/user" element={<UserDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>
   );

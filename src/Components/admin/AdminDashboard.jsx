@@ -1,57 +1,35 @@
-import { useEffect, useState } from "react";
-import { supabase } from "../../Config/Supabase";
+import { useState } from "react";
+import AdminSidebar from "../components/Admin/AdminSidebar";
+import AdminComplaints from "../components/Admin/AdminComplaints";
+import AdminLostFound from "../components/Admin/AdminLostFound";
+import AdminVolunteers from "../components/Admin/AdminVolunteers";
+import AdminUsers from "../components/Admin/AdminUsers";
+import { supabase } from "../Config/Supabase";
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState({
-    complaints: 0,
-    lostItems: 0,
-    volunteers: 0,
-    users: 0,
-  });
+  const [active, setActive] = useState("complaints");
 
-  useEffect(() => {
-    fetchStats();
-  }, []);
+  const logout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "/login";
+  };
 
-  const fetchStats = async () => {
-    const { count: complaints } = await supabase
-      .from("complaints")
-      .select("*", { count: "exact", head: true });
-
-    const { count: lostItems } = await supabase
-      .from("lost_found_items")
-      .select("*", { count: "exact", head: true });
-
-    const { count: volunteers } = await supabase
-      .from("volunteers")
-      .select("*", { count: "exact", head: true });
-
-    const { count: users } = await supabase
-      .from("users")
-      .select("*", { count: "exact", head: true });
-
-    setStats({ complaints, lostItems, volunteers, users });
+  const renderPage = () => {
+    switch (active) {
+      case "complaints": return <AdminComplaints />;
+      case "lost-found": return <AdminLostFound />;
+      case "volunteers": return <AdminVolunteers />;
+      case "users": return <AdminUsers />;
+      default: return <AdminComplaints />;
+    }
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
-
-      <div className="grid grid-cols-2 gap-6">
-        <Card title="Total Complaints" value={stats.complaints} />
-        <Card title="Lost & Found Posts" value={stats.lostItems} />
-        <Card title="Volunteers" value={stats.volunteers} />
-        <Card title="Total Users" value={stats.users} />
+    <div className="flex min-h-screen">
+      <AdminSidebar setActive={setActive} logout={logout} />
+      <div className="flex-1 p-6 bg-gray-100">
+        {renderPage()}
       </div>
-    </div>
-  );
-}
-
-function Card({ title, value }) {
-  return (
-    <div className="bg-white p-6 rounded-xl shadow">
-      <h3 className="text-gray-500 text-sm">{title}</h3>
-      <p className="text-2xl font-bold mt-2">{value}</p>
     </div>
   );
 }

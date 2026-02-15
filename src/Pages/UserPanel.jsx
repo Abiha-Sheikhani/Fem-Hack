@@ -1,33 +1,34 @@
+import Sidebar from "../Components/user/UserSidebar";
+import UserComplaints from "../Components/user/UserComplaints";
+import LostFound from "../Components/user/UserLostFound";
+import Volunteers from "../Components/user/UserVolunteer";
+import Notifications from "../Components/user/Notifications";
 import { useState } from "react";
-import UserDashboard from "../components/user/UserDashboard";
-import UserLostFound from "../components/user/UserLostFound";
-import UserComplaints from "../components/user/UserComplaints";
-import UserVolunteer from "../components/user/UserVolunteer";
+import { supabase } from "../Config/Supabase.js";
 
-export default function UserPanel() {
-  const [active, setActive] = useState("dashboard");
+export default function UserDashboard() {
+  const [active, setActive] = useState("complaints");
+
+  const logout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "/";
+  };
+
+  const renderPage = () => {
+    switch(active){
+      case "complaints": return <UserComplaints/>;
+      case "lost-found": return <LostFound />;
+      case "volunteers": return <Volunteers />;
+      case "notifications": return <Notifications />;
+      default: return <Complaints />;
+    }
+  };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-
-      {/* Sidebar */}
-      <div className="w-64 bg-[#0057a8] text-white p-6">
-        <h2 className="text-xl font-bold mb-8">User Panel</h2>
-
-        <div className="space-y-3">
-          <button onClick={() => setActive("dashboard")} className="block w-full text-left">Dashboard</button>
-          <button onClick={() => setActive("lost")} className="block w-full text-left">Lost & Found</button>
-          <button onClick={() => setActive("complaints")} className="block w-full text-left">Complaints</button>
-          <button onClick={() => setActive("volunteer")} className="block w-full text-left">Volunteer</button>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 p-8">
-        {active === "dashboard" && <UserDashboard />}
-        {active === "lost" && <UserLostFound />}
-        {active === "complaints" && <UserComplaints />}
-        {active === "volunteer" && <UserVolunteer />}
+    <div className="flex min-h-screen">
+      <Sidebar setActive={setActive} logout={logout} />
+      <div className="flex-1 p-6 bg-gray-100">
+        {renderPage()}
       </div>
     </div>
   );
