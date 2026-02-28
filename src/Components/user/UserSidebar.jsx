@@ -21,7 +21,7 @@ export default function Sidebar({ setActive, logout, activeSection }) {
       {/* Mobile Hamburger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-linear-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
         aria-label="Toggle menu"
       >
         <div className="w-6 h-5 flex flex-col justify-between">
@@ -52,7 +52,7 @@ export default function Sidebar({ setActive, logout, activeSection }) {
         {/* Header */}
         <div className="p-6 border-b border-white/10">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 bg-linear-to-r from-blue-400 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
               <span className="text-2xl">👤</span>
             </div>
             <div>
